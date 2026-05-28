@@ -65,6 +65,6 @@ cd resume-service && mvn spring-boot:run
 ## Progress
 - [x] Day 1 — Auth service + API Gateway
 - [x] Day 2 — Resume service + PDF parsing + Kafka (Phase 2)
-- [ ] Day 2 — Kafka + ATS scoring completion
+- [x] Day 3 — ATS scoring completion
 - [ ] Day 3 — AI service
 - [ ] Day 4 — Frontend
