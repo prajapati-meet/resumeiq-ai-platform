@@ -35,10 +35,6 @@ public class AtsScoringService {
         return foundSkills;
     }
 
-    // ─────────────────────────────────────────────────────
-    // FIND MISSING SKILLS
-    // Compares resume skills against a job description
-    // ─────────────────────────────────────────────────────
     public List<String> findMissingSkills(List<String> extractedSkills,
                                           List<String> requiredSkills) {
         List<String> missingSkills = new ArrayList<>();
@@ -58,10 +54,6 @@ public class AtsScoringService {
         return missingSkills;
     }
 
-    // ─────────────────────────────────────────────────────
-    // EXTRACT EDUCATION
-    // Looks for education section keywords
-    // ─────────────────────────────────────────────────────
     public String extractEducation(String resumeText) {
         StringBuilder education = new StringBuilder();
         String lowerText = resumeText.toLowerCase();
@@ -82,52 +74,31 @@ public class AtsScoringService {
                 : "No education details found";
     }
 
-    // ─────────────────────────────────────────────────────
-    // CALCULATE ATS SCORE
-    // Score is based on:
-    // - Skills match (60%)
-    // - Education presence (20%)
-    // - Resume length/completeness (20%)
-    // ─────────────────────────────────────────────────────
     public Integer calculateAtsScore(String resumeText,
                                      List<String> extractedSkills,
                                      List<String> requiredSkills) {
         int score = 0;
 
-        // Skills score — 60 points max
         if (!requiredSkills.isEmpty()) {
-            long matchedCount = extractedSkills.stream()
-                    .filter(skill -> requiredSkills.stream()
-                            .anyMatch(req -> req.toLowerCase()
-                                    .contains(skill.toLowerCase())))
-                    .count();
+            long matchedCount = extractedSkills.stream().filter(skill -> requiredSkills.stream().anyMatch(req -> req.toLowerCase().contains(skill.toLowerCase()))).count();
             score += (int) ((matchedCount * 60.0) / requiredSkills.size());
         } else {
-            // No job description provided — score based on total skills found
             score += Math.min(extractedSkills.size() * 3, 60);
         }
 
-        // Education score — 20 points
         String lowerText = resumeText.toLowerCase();
         boolean hasEducation = EDUCATION_KEYWORDS.stream()
                 .anyMatch(lowerText::contains);
         if (hasEducation) score += 20;
 
-        // Completeness score — 20 points
-        // Based on resume length (longer = more detailed = better)
         int wordCount = resumeText.split("\\s+").length;
         if (wordCount > 300) score += 20;
         else if (wordCount > 150) score += 10;
         else score += 5;
 
-        // Cap at 100
         return Math.min(score, 100);
     }
 
-    // ─────────────────────────────────────────────────────
-    // GENERATE FEEDBACK
-    // Human readable feedback based on score
-    // ─────────────────────────────────────────────────────
     public String generateFeedback(Integer atsScore,
                                    List<String> missingSkills) {
         StringBuilder feedback = new StringBuilder();
