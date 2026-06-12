@@ -67,5 +67,5 @@ cd resume-service && mvn spring-boot:run
 - [x] Day 2 — Resume service + PDF parsing + Kafka (Phase 2)
 - [x] Day 3 — ATS scoring completion
 - [x] Day 4 — Kafka Integration and setup
-- [ ] Day 5 — AI service
+- [x] Day 5 — AI service
 - [ ] Day 6 — Frontend

@@ -18,31 +18,18 @@ public class ResumeController {
         this.resumeService = resumeService;
     }
 
-    // POST /api/resume/upload
-    // Accepts multipart form data with:
-    //   - file: the PDF file
-    //   - userEmail: who is uploading
     @PostMapping("/upload")
-    public ResponseEntity<ResumeUploadResponse> uploadResume(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("userEmail") String userEmail) throws Exception {
+    public ResponseEntity<ResumeUploadResponse> uploadResume(@RequestParam("file") MultipartFile file, @RequestParam("userEmail") String userEmail) throws Exception {
 
-        ResumeUploadResponse response =
-                resumeService.uploadResume(file, userEmail);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+        ResumeUploadResponse response = resumeService.uploadResume(file, userEmail);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // GET /api/resume/analysis/{resumeId}
-    // Returns full analysis results for a resume
     @GetMapping("/analysis/{resumeId}")
-    public ResponseEntity<AnalysisResponse> getAnalysis(
-            @PathVariable Long resumeId) {
+    public ResponseEntity<AnalysisResponse> getAnalysis(@PathVariable Long resumeId) {
         return ResponseEntity.ok(resumeService.getAnalysis(resumeId));
     }
 
-    // GET /api/resume/health
     @GetMapping("/health")
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("Resume Service is running!");

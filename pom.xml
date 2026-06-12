@@ -6,8 +6,6 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- This is the PARENT project. It is not a runnable app.
-         Its job is to manage shared config for all child modules. -->
     <groupId>com.resumeanalyzer</groupId>
     <artifactId>resume-analyzer-platform</artifactId>
     <version>1.0.0</version>
@@ -16,16 +14,14 @@
     <name>Resume Analyzer Platform</name>
     <description>AI-Powered Resume Analyzer - Parent Project</description>
 
-    <!-- List of all microservices (child modules) -->
     <modules>
 
         <module>auth-service</module>
         <module>api-gateway</module>
       <module>resume-service</module>
-        <!--<module>ai-service</module>-->
+        <module>ai-service</module>
     </modules>
 
-    <!-- Spring Boot gives us dependency management for free -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
