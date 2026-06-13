@@ -1,0 +1,45 @@
+# =============================================
+# MAVEN BUILD OUTPUT
+# =============================================
+target/
+*.class
+*.jar
+*.war
+
+# =============================================
+# INTELLIJ IDEA FILES
+# =============================================
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# =============================================
+# SENSITIVE FILES — NEVER PUSH
+# Contains DB passwords, JWT secrets, API keys
+# =============================================
+**/src/main/resources/application.properties
+**/src/main/resources/application.yml
+**/src/main/resources/application-prod.properties
+
+# =============================================
+# OS FILES
+# =============================================
+.DS_Store
+Thumbs.db
+
+# =============================================
+# LOGS
+# =============================================
+*.log
+logs/
+
+# =============================================
+# FRONTEND — Day 3+
+# =============================================
+node_modules/
+dist/
+build/
+.env
+.env.local
+apikey
