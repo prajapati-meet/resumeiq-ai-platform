@@ -22,7 +22,7 @@ public class AiSuggestionConsumer {
         System.out.println("AI Kafka Event Received: " + message);
 
         try {
-            String[] parts = message.split("\\|", 6);
+            String[] parts = message.split("\\|", 8);
 
             AiSuggestionRequest request = new AiSuggestionRequest();
             request.setResumeId(Long.parseLong(parts[0]));
@@ -31,6 +31,8 @@ public class AiSuggestionConsumer {
             request.setExtractedSkills(parts[3]);
             request.setMissingSkills(parts[4]);
             request.setExtractedText(parts.length > 5 ? parts[5] : "");
+            request.setTargetPosition(parts.length > 6 ? parts[6] : "");
+            request.setJobDescription(parts.length > 7 ? parts[7] : "");
 
             aiSuggestionService.generateSuggestion(request);
 

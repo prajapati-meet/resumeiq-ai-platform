@@ -29,10 +29,12 @@ public class GeminiApiService {
     public String generateSuggestion(Integer atsScore,
                                      String extractedSkills,
                                      String missingSkills,
-                                     String resumeText) {
+                                     String resumeText,
+                                     String targetPosition,
+                                     String jobDescription) {
         try {
             String prompt = buildPrompt(atsScore, extractedSkills,
-                    missingSkills, resumeText);
+                    missingSkills, resumeText, targetPosition, jobDescription);
 
             ObjectNode requestBody = objectMapper.createObjectNode();
             ArrayNode contents = objectMapper.createArrayNode();
@@ -65,11 +67,16 @@ public class GeminiApiService {
     private String buildPrompt(Integer atsScore,
                                String extractedSkills,
                                String missingSkills,
-                               String resumeText) {
+                               String resumeText,
+                               String targetPosition,
+                               String jobDescription) {
         return String.format("""
                 You are an expert resume coach and ATS optimization specialist.
                 
                 Analyze this resume data and provide detailed improvement suggestions:
+                
+                Target Position: %s
+                Job Description/Requirements: %s
                 
                 ATS Score: %d/100
                 Skills Found: %s
@@ -87,6 +94,8 @@ public class GeminiApiService {
                 
                 Keep response concise and actionable.
                 """,
+                targetPosition != null && !targetPosition.isBlank() ? targetPosition : "Not specified",
+                jobDescription != null && !jobDescription.isBlank() ? jobDescription : "Not specified",
                 atsScore,
                 extractedSkills,
                 missingSkills,

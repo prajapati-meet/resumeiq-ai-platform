@@ -26,6 +26,12 @@ public class Resume {
     @Column(nullable = false)
     private String status;
 
+    @Column(name = "target_position")
+    private String targetPosition;
+
+    @Column(name = "job_description", columnDefinition = "TEXT")
+    private String jobDescription;
+
     @PrePersist
     protected void onCreate() {
         this.uploadedAt = LocalDateTime.now();
@@ -36,13 +42,15 @@ public class Resume {
         super();
     }
 
-    public Resume(Long id, String userEmail, String fileName, String extractedText, LocalDateTime uploadedAt, String status) {
+    public Resume(Long id, String userEmail, String fileName, String extractedText, LocalDateTime uploadedAt, String status, String targetPosition, String jobDescription) {
         this.id = id;
         this.userEmail = userEmail;
         this.fileName = fileName;
         this.extractedText = extractedText;
         this.uploadedAt = uploadedAt;
         this.status = status;
+        this.targetPosition = targetPosition;
+        this.jobDescription = jobDescription;
     }
 
     public Long getId() {
@@ -91,5 +99,21 @@ public class Resume {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getTargetPosition() {
+        return targetPosition;
+    }
+
+    public void setTargetPosition(String targetPosition) {
+        this.targetPosition = targetPosition;
+    }
+
+    public String getJobDescription() {
+        return jobDescription;
+    }
+
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
     }
 }

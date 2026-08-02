@@ -33,7 +33,9 @@ public class AiSuggestionService {
                     request.getAtsScore(),
                     request.getExtractedSkills(),
                     request.getMissingSkills(),
-                    request.getExtractedText()
+                    request.getExtractedText(),
+                    request.getTargetPosition(),
+                    request.getJobDescription()
             );
 
             suggestion.setAiSuggestion(aiResponse);

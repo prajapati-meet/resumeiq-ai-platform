@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Upload from './pages/Upload';
 import Results from './pages/Results';
+import Landing from './pages/Landing';
 
 function App() {
     return (
@@ -33,8 +34,8 @@ function App() {
                         </ProtectedRoute>
                     } />
 
-                    {/* Default redirect */}
-                    <Route path="/" element={<Navigate to="/login" />} />
+                    {/* Public Landing */}
+                    <Route path="/" element={<Landing />} />
                 </Routes>
             </AuthProvider>
         </BrowserRouter>

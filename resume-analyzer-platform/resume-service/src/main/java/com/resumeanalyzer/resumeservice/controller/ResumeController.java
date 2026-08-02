@@ -19,9 +19,13 @@ public class ResumeController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<ResumeUploadResponse> uploadResume(@RequestParam("file") MultipartFile file, @RequestParam("userEmail") String userEmail) throws Exception {
+    public ResponseEntity<ResumeUploadResponse> uploadResume(
+            @RequestParam("file") MultipartFile file, 
+            @RequestParam("userEmail") String userEmail,
+            @RequestParam(value = "targetPosition", required = false) String targetPosition,
+            @RequestParam(value = "jobDescription", required = false) String jobDescription) throws Exception {
 
-        ResumeUploadResponse response = resumeService.uploadResume(file, userEmail);
+        ResumeUploadResponse response = resumeService.uploadResume(file, userEmail, targetPosition, jobDescription);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -75,15 +75,17 @@ public class ResumeAnalysisService {
             resume.setStatus("COMPLETED");
             resumeRepository.save(resume);
 
-            // Fire Kafka event to AI service
-            // Format: resumeId|userEmail|atsScore|extractedSkills|missingSkills
+            String safeTargetPosition = resume.getTargetPosition() != null ? resume.getTargetPosition().replace("|", " ") : "";
+            String safeJobDescription = resume.getJobDescription() != null ? resume.getJobDescription().replace("|", " ") : "";
+
             String aiEvent = resumeId + "|" +
                     resume.getUserEmail() + "|" +
                     atsScore + "|" +
                     String.join(",", extractedSkills) + "|" +
                     String.join(",", missingSkills) + "|" +
-                    resumeText.substring(0,
-                            Math.min(500, resumeText.length()));
+                    resumeText.substring(0, Math.min(500, resumeText.length())).replace("|", " ") + "|" +
+                    safeTargetPosition + "|" +
+                    safeJobDescription;
 
             kafkaTemplate.send(aiSuggestionTopic, aiEvent);
             System.out.println("AI suggestion event sent for ResumeId: "

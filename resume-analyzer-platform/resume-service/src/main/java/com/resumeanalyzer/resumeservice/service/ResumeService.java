@@ -28,7 +28,7 @@ public class ResumeService {
         this.eventProducer = eventProducer;
     }
 
-    public ResumeUploadResponse uploadResume(MultipartFile file, String userEmail) throws Exception {
+    public ResumeUploadResponse uploadResume(MultipartFile file, String userEmail, String targetPosition, String jobDescription) throws Exception {
 
         if (file.isEmpty()) {
             throw new RuntimeException("Please upload a file");
@@ -50,6 +50,8 @@ public class ResumeService {
         resume.setUserEmail(userEmail);
         resume.setFileName(originalFilename);
         resume.setExtractedText(extractedText);
+        resume.setTargetPosition(targetPosition);
+        resume.setJobDescription(jobDescription);
         Resume savedResume = resumeRepository.save(resume);
 
         eventProducer.sendResumeUploadedEvent(savedResume.getId());

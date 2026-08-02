@@ -8,18 +8,22 @@ public class AiSuggestionRequest {
     private String extractedSkills;
     private String missingSkills;
     private String extractedText;
+    private String targetPosition;
+    private String jobDescription;
 
     public AiSuggestionRequest() {
         super();
     }
 
-    public AiSuggestionRequest(Long resumeId, String userEmail, Integer atsScore, String extractedSkills, String missingSkills, String extractedText) {
+    public AiSuggestionRequest(Long resumeId, String userEmail, Integer atsScore, String extractedSkills, String missingSkills, String extractedText, String targetPosition, String jobDescription) {
         this.resumeId = resumeId;
         this.userEmail = userEmail;
         this.atsScore = atsScore;
         this.extractedSkills = extractedSkills;
         this.missingSkills = missingSkills;
         this.extractedText = extractedText;
+        this.targetPosition = targetPosition;
+        this.jobDescription = jobDescription;
     }
 
     public Long getResumeId() {
@@ -68,5 +72,21 @@ public class AiSuggestionRequest {
 
     public void setExtractedText(String extractedText) {
         this.extractedText = extractedText;
+    }
+
+    public String getTargetPosition() {
+        return targetPosition;
+    }
+
+    public void setTargetPosition(String targetPosition) {
+        this.targetPosition = targetPosition;
+    }
+
+    public String getJobDescription() {
+        return jobDescription;
+    }
+
+    public void setJobDescription(String jobDescription) {
+        this.jobDescription = jobDescription;
     }
 }
