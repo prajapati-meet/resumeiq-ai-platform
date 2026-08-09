@@ -46,9 +46,15 @@ public class ResumeAnalysisService {
             List<String> extractedSkills =
                     atsScoringService.extractSkills(resumeText);
 
-            List<String> requiredSkills = Arrays.asList(
-                    "java", "spring boot", "mysql", "git", "rest api"
-            );
+            List<String> requiredSkills;
+            if (resume.getJobDescription() != null && !resume.getJobDescription().trim().isEmpty()) {
+                requiredSkills = atsScoringService.extractSkills(resume.getJobDescription());
+                if (requiredSkills.isEmpty()) {
+                    requiredSkills = Arrays.asList("java", "spring boot", "mysql", "git", "rest api");
+                }
+            } else {
+                requiredSkills = Arrays.asList("java", "spring boot", "mysql", "git", "rest api");
+            }
 
             List<String> missingSkills =
                     atsScoringService.findMissingSkills(
@@ -61,7 +67,7 @@ public class ResumeAnalysisService {
                     resumeText, extractedSkills, requiredSkills);
 
             String feedback = atsScoringService.generateFeedback(
-                    atsScore, missingSkills);
+                    atsScore, missingSkills, resumeText);
 
             ResumeAnalysis analysis = new ResumeAnalysis();
             analysis.setResume(resume);
@@ -83,7 +89,7 @@ public class ResumeAnalysisService {
                     atsScore + "|" +
                     String.join(",", extractedSkills) + "|" +
                     String.join(",", missingSkills) + "|" +
-                    resumeText.substring(0, Math.min(500, resumeText.length())).replace("|", " ") + "|" +
+                    resumeText.substring(0, Math.min(5000, resumeText.length())).replace("|", " ") + "|" +
                     safeTargetPosition + "|" +
                     safeJobDescription;
 

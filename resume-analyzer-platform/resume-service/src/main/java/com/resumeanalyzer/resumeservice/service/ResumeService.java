@@ -71,10 +71,10 @@ public class ResumeService {
                 .findByResumeId(resumeId)
                 .orElseThrow(() -> new RuntimeException("Analysis not ready yet for resumeId: " + resumeId));
 
-        List<String> extractedSkills = analysis.getExtractedSkills() != null
+        List<String> extractedSkills = (analysis.getExtractedSkills() != null && !analysis.getExtractedSkills().isEmpty())
                 ? Arrays.asList(analysis.getExtractedSkills().split(",")) : List.of();
 
-        List<String> missingSkills = analysis.getMissingSkills() != null
+        List<String> missingSkills = (analysis.getMissingSkills() != null && !analysis.getMissingSkills().isEmpty())
                 ? Arrays.asList(analysis.getMissingSkills().split(",")) : List.of();
 
         return new AnalysisResponse(

@@ -100,25 +100,75 @@ public class AtsScoringService {
     }
 
     public String generateFeedback(Integer atsScore,
-                                   List<String> missingSkills) {
+                                   List<String> missingSkills,
+                                   String resumeText) {
         StringBuilder feedback = new StringBuilder();
 
         if (atsScore >= 80) {
-            feedback.append("Excellent resume! Strong ATS compatibility. ");
+            feedback.append("Excellent resume! Strong ATS compatibility. To further improve, consider the following:\n\n");
         } else if (atsScore >= 60) {
-            feedback.append("Good resume with room for improvement. ");
+            feedback.append("Good resume with room for improvement.\n\n");
         } else if (atsScore >= 40) {
-            feedback.append("Average resume. Consider adding more relevant skills. ");
+            feedback.append("Average resume. Consider adding more relevant skills.\n\n");
         } else {
-            feedback.append("Resume needs significant improvement for ATS systems. ");
+            feedback.append("Resume needs significant improvement for ATS systems.\n\n");
         }
 
         if (!missingSkills.isEmpty()) {
             feedback.append("Consider adding these skills: ")
                     .append(String.join(", ", missingSkills))
-                    .append(".");
+                    .append(".\n\n");
         }
 
+        feedback.append(extractExperience(resumeText));
+
         return feedback.toString();
+    }
+
+    private String extractExperience(String resumeText) {
+        StringBuilder exp = new StringBuilder();
+        String[] lines = resumeText.split("\n");
+        boolean inExperience = false;
+        
+        for (String line : lines) {
+            String lowerLine = line.toLowerCase().trim();
+            if (lowerLine.equals("experience") || lowerLine.equals("work experience") 
+                || lowerLine.equals("employment history") || lowerLine.equals("professional experience")
+                || lowerLine.equals("employment") || lowerLine.equals("internships") 
+                || lowerLine.equals("internship experience") || lowerLine.equals("internship")) {
+                inExperience = true;
+                continue;
+            }
+            if (inExperience) {
+                if (lowerLine.equals("education") || lowerLine.equals("skills") 
+                    || lowerLine.equals("projects") || lowerLine.equals("certifications") || lowerLine.equals("languages")) {
+                    break;
+                }
+                if (line.trim().length() > 0) {
+                    exp.append(line.trim()).append("\n");
+                }
+            }
+        }
+        
+        if (exp.length() == 0) {
+            return "No distinct Experience section found. Please ensure your resume has a clear 'Experience', 'Work Experience', or 'Internships' heading.";
+        }
+        
+        StringBuilder formattedExp = new StringBuilder("Extracted Experience Summary:\n\n");
+        String[] expLines = exp.toString().split("\n");
+        for(String line : expLines) {
+             String lower = line.toLowerCase();
+             if (lower.contains("intern") || lower.contains("internship")) {
+                 formattedExp.append("🎓 Internship Role: ").append(line.trim()).append("\n");
+             } else if (lower.contains("engineer") || lower.contains("developer") || lower.contains("manager") || lower.contains("analyst") || line.matches(".*(20\\d{2}|19\\d{2}).*")) {
+                 formattedExp.append("💼 Full-time / Role: ").append(line.trim()).append("\n");
+             } else if (line.trim().startsWith("-") || line.trim().startsWith("•")) {
+                 formattedExp.append("   - Summary: ").append(line.substring(1).trim()).append("\n");
+             } else {
+                 formattedExp.append(line.trim()).append("\n");
+             }
+        }
+        
+        return formattedExp.toString();
     }
 }
