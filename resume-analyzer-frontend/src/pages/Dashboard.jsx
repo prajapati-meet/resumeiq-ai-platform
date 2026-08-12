@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Navbar from '../components/Navbar';
+import NavBar from '../components/NavBar';
 
 const Dashboard = () => {
     const { user } = useAuth();
@@ -8,7 +8,7 @@ const Dashboard = () => {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <Navbar />
+            <NavBar />
             <div className="max-w-4xl mx-auto mt-10 p-6">
 
                 {/* Welcome Card */}
