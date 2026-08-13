@@ -15,12 +15,9 @@ target/
 *.ipr
 
 # =============================================
-# SENSITIVE FILES — NEVER PUSH
-# Contains DB passwords, JWT secrets, API keys
+# SENSITIVE FILES - NEVER PUSH
 # =============================================
-**/src/main/resources/application.properties
-**/src/main/resources/application.yml
-**/src/main/resources/application-prod.properties
+# (No longer ignoring application.properties as they use env variables)
 
 # =============================================
 # OS FILES
