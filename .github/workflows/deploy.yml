@@ -30,9 +30,5 @@ jobs:
             # Pull the latest code from GitHub
             git pull origin main
             
-            # Bypass the docker-compose v1.29.2 ContainerConfig bug
-            docker-compose stop
-            docker-compose rm -f
-            
-            # Rebuild and restart the Docker containers in the background
-            docker-compose up -d --build
+            # Rebuild and restart the Docker containers in the background using modern Compose V2
+            docker compose up -d --build
