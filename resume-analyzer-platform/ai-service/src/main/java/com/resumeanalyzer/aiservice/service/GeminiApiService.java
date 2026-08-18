@@ -60,7 +60,7 @@ public class GeminiApiService {
         } catch (org.springframework.web.reactive.function.client.WebClientResponseException e) {
             String errorBody = e.getResponseBodyAsString();
             System.err.println("Gemini API error: " + e.getMessage() + " - " + errorBody);
-            return "Google API Error: " + e.getMessage() + " \nDetails: " + errorBody;
+            return generateFallbackSuggestion(atsScore, missingSkills);
         } catch (Exception e) {
             System.err.println("Gemini API error: " + e.getMessage());
             return generateFallbackSuggestion(atsScore, missingSkills);
