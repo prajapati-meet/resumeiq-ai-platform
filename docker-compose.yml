@@ -122,7 +122,7 @@ services:
     build:
       context: ./resume-analyzer-frontend
       args:
-        - VITE_API_URL=http://localhost:18080
+        - VITE_API_URL=http://80.225.248.4:18080
     container_name: ara-frontend
     ports:
       - "15173:80"
