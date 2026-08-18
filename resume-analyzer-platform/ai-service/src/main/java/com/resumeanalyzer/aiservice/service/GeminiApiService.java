@@ -47,6 +47,10 @@ public class GeminiApiService {
             contents.add(content);
             requestBody.set("contents", contents);
 
+            System.out.println("========== SENDING PROMPT TO GEMINI ==========");
+            System.out.println(prompt);
+            System.out.println("===============================================");
+
             String response = webClient.post()
                     .uri(apiUrl + "?key=" + apiKey)
                     .header("Content-Type", "application/json")
